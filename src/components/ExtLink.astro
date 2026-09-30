@@ -1,0 +1,9 @@
+---
+// External link that opens in a new tab: the arrow is hidden from screen readers and
+// "opens in a new tab" is announced instead.
+import { t, splitArrow, type Locale } from '../i18n';
+interface Props { href: string; label: string; locale: Locale; class?: string; lang?: string; dir?: string }
+const { href, label, locale, class: cls, lang, dir } = Astro.props;
+const { text, arrow } = splitArrow(label);
+---
+<a class={cls} href={href} target="_blank" rel="noopener" lang={lang} dir={dir}>{text}{arrow && <span aria-hidden="true"> {arrow}</span>}<span class="sr-only" lang={locale}> {t(locale).newTab}</span></a>

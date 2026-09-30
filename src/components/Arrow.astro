@@ -1,0 +1,6 @@
+---
+import { splitArrow } from '../i18n';
+interface Props { label: string }
+const { text, arrow } = splitArrow(Astro.props.label);
+---
+{text}{arrow && <span aria-hidden="true"> {arrow}</span>}

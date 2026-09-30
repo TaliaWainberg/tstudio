@@ -1,0 +1,145 @@
+---
+import ExtLink from './ExtLink.astro';
+import { t, INSTAGRAM_URL, INSTAGRAM_HANDLE, WHATSAPP_URL, PHONE_DISPLAY, type Locale } from '../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const d = t(locale);
+
+// Form backend (see README → "Contact form"). Hosted on Vercel, so the form posts to a form service:
+//   default                      → Web3Forms (set PUBLIC_FORM_ACCESS_KEY)
+//   https://formspree.io/f/…     → Formspree (set PUBLIC_FORM_ENDPOINT)
+const endpoint = (import.meta.env.PUBLIC_FORM_ENDPOINT || '').trim() || 'https://api.web3forms.com/submit';
+const accessKey = (import.meta.env.PUBLIC_FORM_ACCESS_KEY || '').trim();
+const provider = endpoint.includes('formspree') ? 'formspree' : 'web3forms';
+const honeypot = { web3forms: 'botcheck', formspree: '_gotcha' }[provider];
+const subject = locale === 'he' ? 'פנייה חדשה מהאתר · T° Studio' : 'New enquiry from the website · T° Studio';
+---
+<section id="contact" aria-labelledby="contact-title">
+  <div class="contact">
+    <div class="contact-side">
+      <span class="caps" dir="ltr" lang="en">{d.contact.eyebrow}</span>
+      <h2 id="contact-title">{d.contact.title}</h2>
+      <p>{d.contact.text}</p>
+      <div class="ig">
+        <p>{d.contact.orIntro}</p>
+        <ExtLink class="link" href={INSTAGRAM_URL} label={`Instagram ${INSTAGRAM_HANDLE} ↗`} locale={locale} lang="en" dir="ltr" />
+        <ExtLink class="link" href={WHATSAPP_URL} label={`WhatsApp ${PHONE_DISPLAY} ↗`} locale={locale} lang="en" dir="ltr" />
+      </div>
+    </div>
+
+    <form
+      class="contact-form"
+      id="contactForm"
+      name="contact"
+      method="POST"
+      action={endpoint}
+      data-provider={provider}
+      data-honeypot={honeypot}
+      data-sending={d.contact.sending}
+    >
+      {provider === 'web3forms' && <input type="hidden" name="access_key" value={accessKey} />}
+      {provider === 'web3forms' && <input type="hidden" name="subject" value={subject} />}
+      {provider === 'formspree' && <input type="hidden" name="_subject" value={subject} />}
+      <input type="hidden" name="locale" value={locale} />
+
+      <div class="hp" aria-hidden="true">
+        <label for={`hp-${locale}`}>{d.contact.honeypot}</label>
+        <input id={`hp-${locale}`} name={honeypot} type="text" tabindex="-1" autocomplete="off" />
+      </div>
+
+      <p class="note full">{d.contact.requiredNote}</p>
+
+      <div class="field">
+        <label for="f-name">{d.contact.name}<span class="req" aria-hidden="true"> *</span></label>
+        <input id="f-name" name="name" autocomplete="name" required aria-describedby="f-name-err" />
+        <span class="err" id="f-name-err" data-msg={d.contact.errName}></span>
+      </div>
+      <div class="field">
+        <label for="f-biz">{d.contact.business}</label>
+        <input id="f-biz" name="business" autocomplete="organization" />
+      </div>
+      <fieldset class="field full needs">
+        <legend>{d.contact.needs}</legend>
+        <div class="chips">
+          <input type="checkbox" id="n-web" name="needs" value="Website" /><label for="n-web">{d.contact.needWebsite}</label>
+          <input type="checkbox" id="n-brand" name="needs" value="Branding" /><label for="n-brand">{d.contact.needBranding}</label>
+          <input type="checkbox" id="n-vis" name="needs" value="Visual identity" /><label for="n-vis">{d.contact.needVisual}</label>
+        </div>
+      </fieldset>
+      <div class="field full">
+        <label for="f-msg">{d.contact.message}<span class="req" aria-hidden="true"> *</span></label>
+        <textarea id="f-msg" name="message" required aria-describedby="f-msg-err"></textarea>
+        <span class="err" id="f-msg-err" data-msg={d.contact.errMessage}></span>
+      </div>
+
+      <div class="form-foot">
+        <button class="btn" type="submit">{d.contact.submit}</button>
+      </div>
+
+      <div class="status" id="formStatus" data-state="success" tabindex="-1" hidden>
+        <strong>{d.contact.successTitle}</strong>
+        <span>{d.contact.successText}</span>
+      </div>
+      <div class="status is-error" id="formError" tabindex="-1" hidden>
+        <strong>{d.contact.errorTitle}</strong>
+        <span>{d.contact.errorText}</span>
+        <ExtLink class="link" href={INSTAGRAM_URL} label={`Instagram ${INSTAGRAM_HANDLE} ↗`} locale={locale} lang="en" dir="ltr" />
+      </div>
+      <div class="sr-only" aria-live="polite" id="formLive"></div>
+    </form>
+  </div>
+</section>
+
+<script>
+  const form = document.getElementById('contactForm') as HTMLFormElement | null;
+  if (form) {
+    form.noValidate = true; // we show our own inline messages; without JS the browser validates
+    const ok = document.getElementById('formStatus')!;
+    const bad = document.getElementById('formError')!;
+    const live = document.getElementById('formLive')!;
+    const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+    const btnLabel = btn.textContent;
+    const required = ['name', 'message'].map((n) => form.elements.namedItem(n) as HTMLInputElement);
+
+    const setErr = (el: HTMLInputElement, on: boolean) => {
+      const msg = document.getElementById(el.getAttribute('aria-describedby')!)!;
+      el.setAttribute('aria-invalid', String(on));
+      msg.textContent = on ? msg.dataset.msg ?? '' : '';
+    };
+    required.forEach((el) => el.addEventListener('input', () => el.value.trim() && setErr(el, false)));
+
+    const show = (el: HTMLElement) => {
+      ok.hidden = bad.hidden = true;
+      el.hidden = false;
+      live.textContent = el.innerText;
+      el.focus({ preventScroll: true });
+      el.scrollIntoView({ block: 'nearest', behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      ok.hidden = bad.hidden = true;
+      const invalid = required.filter((el) => !el.value.trim());
+      required.forEach((el) => setErr(el, invalid.includes(el)));
+      if (invalid.length) { invalid[0].focus(); return; }
+
+      const data = new FormData(form);
+      // Honeypot filled → a bot. Pretend it worked and send nothing.
+      if (String(data.get(form.dataset.honeypot!) || '').trim()) { form.reset(); show(ok); return; }
+
+      btn.disabled = true;
+      btn.textContent = form.dataset.sending ?? '…';
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        show(ok);
+      } catch {
+        show(bad);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = btnLabel;
+      }
+    });
+  }
+</script>

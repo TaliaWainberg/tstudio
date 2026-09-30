@@ -1,0 +1,144 @@
+{
+  "meta": {
+    "title": "T° Studio · Websites, branding and visual identity",
+    "description": "A studio for websites, branding and visual identity. Every site starts with getting to know your product, and is built from scratch. No templates.",
+    "ogLocale": "en_US",
+    "ogAlt": "Letterpress card with a T° mark and a neon yellow painted edge"
+  },
+  "skip": "Skip to content",
+  "nav": {
+    "label": "Main",
+    "services": "Services",
+    "work": "Work",
+    "process": "Process",
+    "contact": "Contact",
+    "switchLabel": "עברית",
+    "switchShort": "עב"
+  },
+  "hero": {
+    "eyebrow": "Details make the difference",
+    "title": "Websites that feel exactly like your business.",
+    "lede": "A studio for websites, branding and visual identity. Every site starts with getting to know your product, and is built from scratch. No templates.",
+    "cta": "Book an intro call",
+    "secondary": "See the work ↓",
+    "imageAlt": "Letterpress card with a T° mark and a neon yellow painted edge"
+  },
+  "services": {
+    "eyebrow": "Websites · Branding · Visual Identity",
+    "title": "What we do",
+    "items": [
+      {
+        "caps": "Websites",
+        "title": "Websites",
+        "text": "Custom brand sites and landing pages. Fast, responsive and easy to manage."
+      },
+      {
+        "caps": "Branding",
+        "title": "Branding",
+        "text": "Logo, color, type and tone of voice, so your business looks and sounds the same everywhere."
+      },
+      {
+        "caps": "Visual Identity",
+        "title": "Visual identity",
+        "text": "Social, presentation and print design that continues your website instead of competing with it."
+      }
+    ]
+  },
+  "band": {
+    "label": "First impression",
+    "text": "seconds. That's how long a visitor takes to decide if your site looks professional, before reading a word.",
+    "caps": "Let's make them count"
+  },
+  "work": {
+    "eyebrow": "Selected work",
+    "title": "Selected work",
+    "visit": "Visit site ↗",
+    "nextCaps": "Next project",
+    "nextTitle": "The next project could be yours.",
+    "nextLink": "Let's talk →"
+  },
+  "process": {
+    "eyebrow": "Trust the process",
+    "title": "A good website isn't made in a moment",
+    "steps": [
+      {
+        "caps": "01 · Discover",
+        "title": "Learn the product",
+        "text": "The most important step: who it's for, what sets it apart and what feeling it should leave."
+      },
+      {
+        "caps": "02 · Concept",
+        "title": "Design concept",
+        "text": "A visual language that turns that uniqueness into a look: color, type, rhythm."
+      },
+      {
+        "caps": "03 · Website",
+        "title": "The website",
+        "text": "Precise, fast build, launch, and support after the site goes live."
+      }
+    ]
+  },
+  "contact": {
+    "eyebrow": "Contact",
+    "title": "Let's begin.",
+    "text": "Tell us a few words about your business and what you need, and we'll get back to you.",
+    "name": "Name",
+    "business": "Business",
+    "needs": "What do you need?",
+    "needWebsite": "Website",
+    "needBranding": "Branding",
+    "needVisual": "Visual identity",
+    "message": "Tell us more",
+    "honeypot": "If you are human, leave this field empty",
+    "submit": "Send",
+    "sending": "Sending…",
+    "errName": "Please tell us your name.",
+    "errMessage": "Please write a few words about what you need.",
+    "successTitle": "Thank you, your message was sent.",
+    "successText": "We'll get back to you soon.",
+    "errorTitle": "Something went wrong and the message wasn't sent.",
+    "errorText": "Please try again in a moment, or message us directly on Instagram.",
+    "requiredNote": "Fields marked * are required.",
+    "whatsapp": "WhatsApp",
+    "orIntro": "Prefer to talk directly? Message us on Instagram or WhatsApp."
+  },
+  "footer": {
+    "line": "T° Studio · Websites · Branding · Visual Identity",
+    "instagram": "Instagram ↗",
+    "a11y": "Accessibility statement"
+  },
+  "newTab": "(opens in a new tab)",
+  "a11y": {
+    "metaTitle": "Accessibility statement · T° Studio",
+    "metaDescription": "T° Studio's accessibility statement: the accessibility level, the adjustments made and how to contact us about accessibility.",
+    "title": "Accessibility statement",
+    "back": "Back to home",
+    "intro": "At T° Studio we want everyone to be able to use this website comfortably, including people with disabilities. The site was built and tested according to Israel's Equal Rights for Persons with Disabilities (Service Accessibility Adjustments) Regulations, 2013.",
+    "levelTitle": "Accessibility level",
+    "level": "The site meets Israeli Standard IS 5568, which is based on WCAG 2.0 level AA. Beyond that, it was built to WCAG 2.2 level AA.",
+    "doneTitle": "What we did",
+    "done": [
+      "Full keyboard navigation, with a clear focus indicator and a \"Skip to content\" link at the top of every page.",
+      "Semantic structure: headings in hierarchical order, page landmarks (header, navigation, main content, footer) and lists.",
+      "Screen reader support: text alternatives for images, language marked on text in other languages, and decorative elements hidden from screen readers.",
+      "Color contrast that meets AA requirements for all text and interface components.",
+      "Responsive layout that supports zoom up to 400% and larger text without losing content or scrolling sideways.",
+      "The system \"reduce motion\" setting is respected. Nothing on the site flashes, moves or plays automatically.",
+      "Contact form: a label on every field, required fields marked, clear error messages next to the field, and a success message announced to screen readers.",
+      "Links that open in a new tab say so."
+    ],
+    "testedTitle": "Testing",
+    "tested": "The site was tested with automated tools (axe-core and Lighthouse), keyboard navigation, and mobile and desktop layouts, in Hebrew (right to left) and English, in Chrome.",
+    "limitsTitle": "Known limitations",
+    "limits": "We are not aware of any inaccessible parts of the site. If you run into a problem, please tell us so we can fix it.",
+    "noWidget": "The site does not use an accessibility plugin (\"accessibility button\"). The adjustments were made directly in the site's code, and you can use the accessibility tools built into your browser and operating system (zoom, screen reader, high contrast).",
+    "contactTitle": "Accessibility contact",
+    "contactIntro": "Ran into an accessibility problem or have a suggestion? We'd like to hear from you and will get back to you soon.",
+    "contactName": "Accessibility contact person",
+    "contactEmail": "Email",
+    "contactPhone": "Phone",
+    "contactForm": "or use the contact form on the site",
+    "contactTip": "To help us handle your request, please mention the page where you ran into the problem, what you were trying to do, and which browser and assistive technology you used.",
+    "updated": "This statement was last updated on"
+  }
+}

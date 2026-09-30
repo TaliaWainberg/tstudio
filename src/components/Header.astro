@@ -1,0 +1,23 @@
+---
+import { t, pathOf, otherOf, type Locale } from '../i18n';
+interface Props { locale: Locale; path?: string }
+const { locale, path = '' } = Astro.props;
+const base = path ? pathOf(locale) : '';
+const d = t(locale);
+const other = otherOf(locale);
+---
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="logo" href={pathOf(locale)} aria-label="T° Studio">
+      <svg width="34" height="34" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 8 L30 16"/><path d="M18 12 L10 38"/><circle cx="36" cy="30" r="4"/></svg>
+      <span dir="ltr" lang="en">T° Studio</span>
+    </a>
+    <nav class="site-nav" aria-label={d.nav.label}>
+      <a href={`${base}#services`}>{d.nav.services}</a>
+      <a href={`${base}#work`}>{d.nav.work}</a>
+      <a href={`${base}#process`}>{d.nav.process}</a>
+      <a href={`${base}#contact`}>{d.nav.contact}</a>
+      <a class="lang" href={pathOf(other) + path} hreflang={other} lang={other} aria-label={d.nav.switchLabel}>{d.nav.switchShort}</a>
+    </nav>
+  </div>
+</header>

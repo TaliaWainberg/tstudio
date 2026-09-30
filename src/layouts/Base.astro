@@ -1,0 +1,69 @@
+---
+import '@fontsource/jost/300.css';
+import '@fontsource/jost/400.css';
+import '@fontsource/jost/500.css';
+import '@fontsource/assistant/300.css';
+import '@fontsource/assistant/400.css';
+import '@fontsource/assistant/600.css';
+import '../styles/global.css';
+
+import jost300 from '@fontsource/jost/files/jost-latin-300-normal.woff2?url';
+import jost400 from '@fontsource/jost/files/jost-latin-400-normal.woff2?url';
+import assistantHe400 from '@fontsource/assistant/files/assistant-hebrew-400-normal.woff2?url';
+
+import { t, dirOf, pathOf, otherOf, locales, INSTAGRAM_URL, type Locale } from '../i18n';
+
+interface Props { locale: Locale; path?: string; title?: string; description?: string }
+const { locale, path = '' } = Astro.props;
+const d = t(locale);
+const title = Astro.props.title ?? d.meta.title;
+const description = Astro.props.description ?? d.meta.description;
+const site = Astro.site!;
+const canonical = new URL(pathOf(locale) + path, site).href;
+const ogImage = new URL('/og.jpg', site).href;
+const preloads = locale === 'he' ? [assistantHe400, jost400] : [jost300, jost400];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'T° Studio',
+  url: new URL('/', site).href,
+  image: ogImage,
+  description: d.meta.description,
+  sameAs: [INSTAGRAM_URL],
+};
+---
+<!doctype html>
+<html lang={locale} dir={dirOf(locale)}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {locales.map((l) => <link rel="alternate" hreflang={l} href={new URL(pathOf(l) + path, site).href} />)}
+    <link rel="alternate" hreflang="x-default" href={new URL('/' + path, site).href} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#EEE8DD" />
+    {preloads.map((href) => <link rel="preload" href={href} as="font" type="font/woff2" crossorigin />)}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="T° Studio" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={d.meta.ogLocale} />
+    <meta property="og:locale:alternate" content={t(otherOf(locale)).meta.ogLocale} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={d.meta.ogAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="skip" href="#main">{d.skip}</a>
+    <slot />
+  </body>
+</html>

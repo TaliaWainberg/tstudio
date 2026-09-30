@@ -1,0 +1,48 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from './Header.astro';
+import Footer from './Footer.astro';
+import { t, pathOf, A11Y, type Locale } from '../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const d = t(locale);
+const a = d.a11y;
+const updated = new Date(A11Y.updated + 'T12:00:00Z').toLocaleDateString(locale === 'he' ? 'he-IL' : 'en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<Base locale={locale} path="accessibility/" title={a.metaTitle} description={a.metaDescription}>
+  <Header locale={locale} path="accessibility/" />
+  <main class="wrap" id="main">
+    <article class="doc">
+      <span class="caps" dir="ltr" lang="en">Accessibility</span>
+      <h1>{a.title}</h1>
+      <p>{a.intro}</p>
+
+      <h2>{a.levelTitle}</h2>
+      <p>{a.level}</p>
+
+      <h2>{a.doneTitle}</h2>
+      <ul>{a.done.map((item) => <li>{item}</li>)}</ul>
+      <p style="margin-top:20px">{a.noWidget}</p>
+
+      <h2>{a.testedTitle}</h2>
+      <p>{a.tested}</p>
+
+      <h2>{a.limitsTitle}</h2>
+      <p>{a.limits}</p>
+
+      <h2>{a.contactTitle}</h2>
+      <p>{a.contactIntro}</p>
+      <dl>
+        {A11Y.name && <><dt>{a.contactName}</dt><dd>{A11Y.name}</dd></>}
+        <dt>{a.contactEmail}</dt><dd><a href={`mailto:${A11Y.email}`} dir="ltr">{A11Y.email}</a></dd>
+        <dt>{a.contactPhone}</dt><dd><a href={`tel:${A11Y.phoneTel}`} dir="ltr">{A11Y.phoneDisplay}</a></dd>
+      </dl>
+      <p><a href={`${pathOf(locale)}#contact`}>{a.contactForm}</a></p>
+      <p>{a.contactTip}</p>
+
+      <p style="margin-top:40px">{a.updated} <time datetime={A11Y.updated}>{updated}</time>.</p>
+      <a class="link back" href={pathOf(locale)}>{a.back}</a>
+    </article>
+  </main>
+  <div class="wrap"><Footer locale={locale} /></div>
+</Base>

@@ -1,0 +1,15 @@
+---
+import ExtLink from './ExtLink.astro';
+import { t, pathOf, INSTAGRAM_URL, WHATSAPP_URL, type Locale } from '../i18n';
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const d = t(locale);
+---
+<footer class="site-footer">
+  <span dir="ltr" lang="en">{d.footer.line}</span>
+  <div class="foot-links">
+    <a href={`${pathOf(locale)}accessibility/`}>{d.footer.a11y}</a>
+    <ExtLink href={INSTAGRAM_URL} label={d.footer.instagram} locale={locale} lang="en" dir="ltr" />
+    <ExtLink href={WHATSAPP_URL} label={`${d.contact.whatsapp} ↗`} locale={locale} lang="en" dir="ltr" />
+  </div>
+</footer>
