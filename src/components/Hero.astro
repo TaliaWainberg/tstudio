@@ -1,19 +1,16 @@
 ---
 import { Picture } from 'astro:assets';
 import card from '../assets/card-photo-hires.jpg';
-import Arrow from './Arrow.astro';
 import { t, type Locale } from '../i18n';
 interface Props { locale: Locale }
 const d = t(Astro.props.locale);
 ---
 <div class="hero">
   <div class="hero-text">
-    <span class="caps" dir="ltr" lang="en">{d.hero.eyebrow}</span>
     <h1>{d.hero.title}</h1>
-    <p class="lede">{d.hero.lede}</p>
+    <p class="lede">{d.hero.lede.pre}<span dir="ltr" lang="en">{d.hero.lede.ltr}</span>{d.hero.lede.post}</p>
     <div class="cta-row">
       <a class="btn" href="#contact">{d.hero.cta}</a>
-      <a class="link" href="#work"><Arrow label={d.hero.secondary} /></a>
     </div>
   </div>
   <div class="hero-img">

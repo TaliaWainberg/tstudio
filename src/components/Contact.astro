@@ -58,18 +58,18 @@ const subject = locale === 'he' ? 'פנייה חדשה מהאתר · T° Studio'
         <label for="f-biz">{d.contact.business}</label>
         <input id="f-biz" name="business" autocomplete="organization" />
       </div>
-      <fieldset class="field full needs">
-        <legend>{d.contact.needs}</legend>
-        <div class="chips">
-          <input type="checkbox" id="n-web" name="needs" value="Website" /><label for="n-web">{d.contact.needWebsite}</label>
-          <input type="checkbox" id="n-brand" name="needs" value="Branding" /><label for="n-brand">{d.contact.needBranding}</label>
-          <input type="checkbox" id="n-vis" name="needs" value="Visual identity" /><label for="n-vis">{d.contact.needVisual}</label>
-        </div>
-      </fieldset>
+      <div class="field">
+        <label for="f-email">{d.contact.email}</label>
+        <input id="f-email" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" aria-describedby="f-contact-err" />
+      </div>
+      <div class="field">
+        <label for="f-phone">{d.contact.phone}</label>
+        <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" aria-describedby="f-contact-err" />
+      </div>
+      <span class="err full" id="f-contact-err" data-contact={d.contact.errContact} data-email={d.contact.errEmail}></span>
       <div class="field full">
-        <label for="f-msg">{d.contact.message}<span class="req" aria-hidden="true"> *</span></label>
-        <textarea id="f-msg" name="message" required aria-describedby="f-msg-err"></textarea>
-        <span class="err" id="f-msg-err" data-msg={d.contact.errMessage}></span>
+        <label for="f-msg">{d.contact.message}</label>
+        <textarea id="f-msg" name="message"></textarea>
       </div>
 
       <div class="form-foot">
@@ -99,14 +99,49 @@ const subject = locale === 'he' ? 'פנייה חדשה מהאתר · T° Studio'
     const live = document.getElementById('formLive')!;
     const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
     const btnLabel = btn.textContent;
-    const required = ['name', 'message'].map((n) => form.elements.namedItem(n) as HTMLInputElement);
+    const nameEl = form.elements.namedItem('name') as HTMLInputElement;
+    const emailEl = form.elements.namedItem('email') as HTMLInputElement;
+    const phoneEl = form.elements.namedItem('phone') as HTMLInputElement;
+    const nameErr = document.getElementById('f-name-err')!;
+    const contactErr = document.getElementById('f-contact-err')!;
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    const setErr = (el: HTMLInputElement, on: boolean) => {
-      const msg = document.getElementById(el.getAttribute('aria-describedby')!)!;
-      el.setAttribute('aria-invalid', String(on));
-      msg.textContent = on ? msg.dataset.msg ?? '' : '';
+    const clearName = () => { nameEl.setAttribute('aria-invalid', 'false'); nameErr.textContent = ''; };
+    const clearContact = () => {
+      emailEl.setAttribute('aria-invalid', 'false');
+      phoneEl.setAttribute('aria-invalid', 'false');
+      contactErr.textContent = '';
     };
-    required.forEach((el) => el.addEventListener('input', () => el.value.trim() && setErr(el, false)));
+    nameEl.addEventListener('input', () => nameEl.value.trim() && clearName());
+    emailEl.addEventListener('input', clearContact);
+    phoneEl.addEventListener('input', clearContact);
+
+    // Returns the first invalid field, or null when the form is good.
+    const validate = (): HTMLInputElement | null => {
+      clearName();
+      clearContact();
+      let first: HTMLInputElement | null = null;
+
+      if (!nameEl.value.trim()) {
+        nameEl.setAttribute('aria-invalid', 'true');
+        nameErr.textContent = nameErr.dataset.msg ?? '';
+        first = nameEl;
+      }
+
+      const hasEmail = emailEl.value.trim();
+      const hasPhone = phoneEl.value.trim();
+      if (!hasEmail && !hasPhone) {
+        emailEl.setAttribute('aria-invalid', 'true');
+        phoneEl.setAttribute('aria-invalid', 'true');
+        contactErr.textContent = contactErr.dataset.contact ?? '';
+        first = first ?? emailEl;
+      } else if (hasEmail && !emailRe.test(hasEmail)) {
+        emailEl.setAttribute('aria-invalid', 'true');
+        contactErr.textContent = contactErr.dataset.email ?? '';
+        first = first ?? emailEl;
+      }
+      return first;
+    };
 
     const show = (el: HTMLElement) => {
       ok.hidden = bad.hidden = true;
@@ -119,9 +154,8 @@ const subject = locale === 'he' ? 'פנייה חדשה מהאתר · T° Studio'
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       ok.hidden = bad.hidden = true;
-      const invalid = required.filter((el) => !el.value.trim());
-      required.forEach((el) => setErr(el, invalid.includes(el)));
-      if (invalid.length) { invalid[0].focus(); return; }
+      const firstInvalid = validate();
+      if (firstInvalid) { firstInvalid.focus(); return; }
 
       const data = new FormData(form);
       // Honeypot filled → a bot. Pretend it worked and send nothing.

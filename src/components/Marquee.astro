@@ -1,0 +1,16 @@
+---
+// Decorative, full-width scrolling strip. Same Latin text in both locales.
+// aria-hidden: it repeats and only echoes the services listed just below.
+interface Props { text: string }
+const { text } = Astro.props;
+const PER_GROUP = 4; // repeats per group; two identical groups make the loop seamless
+---
+<div class="marquee" aria-hidden="true" dir="ltr" lang="en">
+  <div class="marquee-track">
+    {[0, 1].map(() => (
+      <div class="marquee-group">
+        {Array.from({ length: PER_GROUP }).map(() => <span>{text}</span>)}
+      </div>
+    ))}
+  </div>
+</div>

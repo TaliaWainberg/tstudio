@@ -10,22 +10,23 @@
     "label": "Main",
     "services": "Services",
     "work": "Work",
-    "process": "Process",
     "contact": "Contact",
     "switchLabel": "עברית",
     "switchShort": "עב"
   },
   "hero": {
-    "eyebrow": "Details make the difference",
-    "title": "Websites that feel exactly like your business.",
-    "lede": "A studio for websites, branding and visual identity. Every site starts with getting to know your product, and is built from scratch. No templates.",
-    "cta": "Book an intro call",
-    "secondary": "See the work ↓",
+    "title": "A website that tells your business's story.",
+    "lede": {
+      "pre": "Every project starts with getting to know your product in depth, and is built ",
+      "ltr": "to perfection",
+      "post": "."
+    },
+    "cta": "Shall we start?",
     "imageAlt": "Letterpress card with a T° mark and a neon yellow painted edge"
   },
   "services": {
     "eyebrow": "Websites · Branding · Visual Identity",
-    "title": "What we do",
+    "title": "What we offer",
     "items": [
       {
         "caps": "Websites",
@@ -52,31 +53,7 @@
   "work": {
     "eyebrow": "Selected work",
     "title": "Selected work",
-    "visit": "Visit site ↗",
-    "nextCaps": "Next project",
-    "nextTitle": "The next project could be yours.",
-    "nextLink": "Let's talk →"
-  },
-  "process": {
-    "eyebrow": "Trust the process",
-    "title": "A good website isn't made in a moment",
-    "steps": [
-      {
-        "caps": "01 · Discover",
-        "title": "Learn the product",
-        "text": "The most important step: who it's for, what sets it apart and what feeling it should leave."
-      },
-      {
-        "caps": "02 · Concept",
-        "title": "Design concept",
-        "text": "A visual language that turns that uniqueness into a look: color, type, rhythm."
-      },
-      {
-        "caps": "03 · Website",
-        "title": "The website",
-        "text": "Precise, fast build, launch, and support after the site goes live."
-      }
-    ]
+    "visit": "View site ↗"
   },
   "contact": {
     "eyebrow": "Contact",
@@ -84,21 +61,20 @@
     "text": "Tell us a few words about your business and what you need, and we'll get back to you.",
     "name": "Name",
     "business": "Business",
-    "needs": "What do you need?",
-    "needWebsite": "Website",
-    "needBranding": "Branding",
-    "needVisual": "Visual identity",
+    "email": "Email",
+    "phone": "Phone",
     "message": "Tell us more",
     "honeypot": "If you are human, leave this field empty",
     "submit": "Send",
     "sending": "Sending…",
     "errName": "Please tell us your name.",
-    "errMessage": "Please write a few words about what you need.",
+    "errContact": "Please leave an email or phone number so we can reply.",
+    "errEmail": "That email doesn't look right. Could you check it?",
     "successTitle": "Thank you, your message was sent.",
     "successText": "We'll get back to you soon.",
     "errorTitle": "Something went wrong and the message wasn't sent.",
     "errorText": "Please try again in a moment, or message us directly on Instagram.",
-    "requiredNote": "Fields marked * are required.",
+    "requiredNote": "Fields marked * are required. Leave an email or phone number, at least one.",
     "whatsapp": "WhatsApp",
     "orIntro": "Prefer to talk directly? Message us on Instagram or WhatsApp."
   },
@@ -123,7 +99,7 @@
       "Screen reader support: text alternatives for images, language marked on text in other languages, and decorative elements hidden from screen readers.",
       "Color contrast that meets AA requirements for all text and interface components.",
       "Responsive layout that supports zoom up to 400% and larger text without losing content or scrolling sideways.",
-      "The system \"reduce motion\" setting is respected. Nothing on the site flashes, moves or plays automatically.",
+      "The system \"reduce motion\" setting is respected: animation and video play only when the visitor hasn't asked to reduce motion, and nothing on the site flashes.",
       "Contact form: a label on every field, required fields marked, clear error messages next to the field, and a success message announced to screen readers.",
       "Links that open in a new tab say so."
     ],
