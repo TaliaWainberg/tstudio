@@ -59,14 +59,15 @@ const subject = locale === 'he' ? 'פנייה חדשה מהאתר · T° Studio'
         <input id="f-biz" name="business" autocomplete="organization" />
       </div>
       <div class="field">
-        <label for="f-email">{d.contact.email}</label>
-        <input id="f-email" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" aria-describedby="f-contact-err" />
+        <label for="f-email">{d.contact.email}<span class="req" aria-hidden="true"> *</span></label>
+        <input id="f-email" name="email" type="email" inputmode="email" autocomplete="email" dir="ltr" required aria-describedby="f-email-err" />
+        <span class="err" id="f-email-err" data-missing={d.contact.errEmailMissing} data-invalid={d.contact.errEmail}></span>
       </div>
       <div class="field">
-        <label for="f-phone">{d.contact.phone}</label>
-        <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" aria-describedby="f-contact-err" />
+        <label for="f-phone">{d.contact.phone}<span class="req" aria-hidden="true"> *</span></label>
+        <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" dir="ltr" required aria-describedby="f-phone-err" />
+        <span class="err" id="f-phone-err" data-missing={d.contact.errPhone} data-invalid={d.contact.errPhoneInvalid}></span>
       </div>
-      <span class="err full" id="f-contact-err" data-contact={d.contact.errContact} data-email={d.contact.errEmail}></span>
       <div class="field full">
         <label for="f-msg">{d.contact.message}</label>
         <textarea id="f-msg" name="message"></textarea>
@@ -103,23 +104,26 @@ const subject = locale === 'he' ? 'פנייה חדשה מהאתר · T° Studio'
     const emailEl = form.elements.namedItem('email') as HTMLInputElement;
     const phoneEl = form.elements.namedItem('phone') as HTMLInputElement;
     const nameErr = document.getElementById('f-name-err')!;
-    const contactErr = document.getElementById('f-contact-err')!;
+    const emailErr = document.getElementById('f-email-err')!;
+    const phoneErr = document.getElementById('f-phone-err')!;
     const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneOk = (v: string) => v.replace(/\D/g, '').length >= 9;
 
     const clearName = () => { nameEl.setAttribute('aria-invalid', 'false'); nameErr.textContent = ''; };
-    const clearContact = () => {
-      emailEl.setAttribute('aria-invalid', 'false');
-      phoneEl.setAttribute('aria-invalid', 'false');
-      contactErr.textContent = '';
+    const clearField = (el: HTMLInputElement, err: HTMLElement) => { el.setAttribute('aria-invalid', 'false'); err.textContent = ''; };
+    const flag = (el: HTMLInputElement, err: HTMLElement, msg?: string) => {
+      el.setAttribute('aria-invalid', 'true');
+      err.textContent = msg ?? '';
     };
     nameEl.addEventListener('input', () => nameEl.value.trim() && clearName());
-    emailEl.addEventListener('input', clearContact);
-    phoneEl.addEventListener('input', clearContact);
+    emailEl.addEventListener('input', () => clearField(emailEl, emailErr));
+    phoneEl.addEventListener('input', () => clearField(phoneEl, phoneErr));
 
     // Returns the first invalid field, or null when the form is good.
     const validate = (): HTMLInputElement | null => {
       clearName();
-      clearContact();
+      clearField(emailEl, emailErr);
+      clearField(phoneEl, phoneErr);
       let first: HTMLInputElement | null = null;
 
       if (!nameEl.value.trim()) {
@@ -128,18 +132,13 @@ const subject = locale === 'he' ? 'פנייה חדשה מהאתר · T° Studio'
         first = nameEl;
       }
 
-      const hasEmail = emailEl.value.trim();
-      const hasPhone = phoneEl.value.trim();
-      if (!hasEmail && !hasPhone) {
-        emailEl.setAttribute('aria-invalid', 'true');
-        phoneEl.setAttribute('aria-invalid', 'true');
-        contactErr.textContent = contactErr.dataset.contact ?? '';
-        first = first ?? emailEl;
-      } else if (hasEmail && !emailRe.test(hasEmail)) {
-        emailEl.setAttribute('aria-invalid', 'true');
-        contactErr.textContent = contactErr.dataset.email ?? '';
-        first = first ?? emailEl;
-      }
+      const email = emailEl.value.trim();
+      if (!email) { flag(emailEl, emailErr, emailErr.dataset.missing); first = first ?? emailEl; }
+      else if (!emailRe.test(email)) { flag(emailEl, emailErr, emailErr.dataset.invalid); first = first ?? emailEl; }
+
+      const phone = phoneEl.value.trim();
+      if (!phone) { flag(phoneEl, phoneErr, phoneErr.dataset.missing); first = first ?? phoneEl; }
+      else if (!phoneOk(phone)) { flag(phoneEl, phoneErr, phoneErr.dataset.invalid); first = first ?? phoneEl; }
       return first;
     };
 

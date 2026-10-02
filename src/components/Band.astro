@@ -5,10 +5,10 @@ const d = t(Astro.props.locale);
 ---
 <section class="band" aria-label={d.band.label}>
   <div class="wrap inner">
-    <div class="num" aria-hidden="true">0.05</div>
+    <div class="num" aria-hidden="true">0.5</div>
     <div>
-      <p><span class="sr-only">0.05 </span>{d.band.text}</p>
-      <span class="caps" dir="ltr" lang="en">{d.band.caps}</span>
+      <p><span class="sr-only">0.5 </span>{d.band.text}</p>
+      <p class="caps"><span dir="ltr" lang="en">{d.band.caps}</span></p>
     </div>
   </div>
 </section>

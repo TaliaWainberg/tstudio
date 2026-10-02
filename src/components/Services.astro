@@ -12,8 +12,7 @@ const d = t(Astro.props.locale);
   <div class="services">
     {d.services.items.map((s) => (
       <div class="service">
-        <span class="caps" dir="ltr" lang="en">{s.caps}</span>
-        <h3>{s.title}</h3>
+        <h3 class="caps" dir="ltr" lang="en">{s.caps}</h3>
         <p>{s.text}</p>
       </div>
     ))}

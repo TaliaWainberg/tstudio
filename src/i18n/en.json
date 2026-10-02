@@ -15,9 +15,9 @@
     "switchShort": "עב"
   },
   "hero": {
-    "title": "A website that tells your business's story.",
+    "title": "A website that tells your story.",
     "lede": {
-      "pre": "Every project starts with getting to know your product in depth, and is built ",
+      "pre": "No templates. We get to know your business in depth, then build it ",
       "ltr": "to perfection",
       "post": "."
     },
@@ -68,13 +68,15 @@
     "submit": "Send",
     "sending": "Sending…",
     "errName": "Please tell us your name.",
-    "errContact": "Please leave an email or phone number so we can reply.",
+    "errEmailMissing": "Please leave an email address so we can reply.",
+    "errPhone": "Please leave a phone number so we can reply.",
+    "errPhoneInvalid": "That phone number doesn't look right. Could you check it?",
     "errEmail": "That email doesn't look right. Could you check it?",
     "successTitle": "Thank you, your message was sent.",
     "successText": "We'll get back to you soon.",
     "errorTitle": "Something went wrong and the message wasn't sent.",
     "errorText": "Please try again in a moment, or message us directly on Instagram.",
-    "requiredNote": "Fields marked * are required. Leave an email or phone number, at least one.",
+    "requiredNote": "Fields marked * are required.",
     "whatsapp": "WhatsApp",
     "orIntro": "Prefer to talk directly? Message us on Instagram or WhatsApp."
   },
