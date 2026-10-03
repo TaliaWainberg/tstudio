@@ -59,6 +59,8 @@ p{margin:0}
 
 /* sections */
 section{padding-block:clamp(56px,8vw,112px);border-top:1px solid var(--rule)}
+/* no rule under the hero: the services marquee strip is the separator there */
+#services{border-top:none}
 .sec-head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:16px;margin-bottom:clamp(32px,5vw,56px);max-width:640px;margin-inline:auto}
 .sec-head h2{font-size:clamp(30px,3.6vw,44px)}
 
