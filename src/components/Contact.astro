@@ -69,7 +69,7 @@ const subject = locale === 'he' ? 'פנייה חדשה מהאתר · T° Studio'
       </div>
       <div class="field full">
         <label for="f-msg">{d.contact.message}</label>
-        <textarea id="f-msg" name="message"></textarea>
+        <textarea id="f-msg" name="message" rows="1"></textarea>
       </div>
 
       <div class="form-foot">
@@ -114,6 +114,13 @@ const subject = locale === 'he' ? 'פנייה חדשה מהאתר · T° Studio'
       el.setAttribute('aria-invalid', 'true');
       err.textContent = msg ?? '';
     };
+    // The message box starts one line tall and grows as you type (CSS field-sizing where supported).
+    const msgEl = form.elements.namedItem('message') as HTMLTextAreaElement;
+    const fitMsg = () => { msgEl.style.height = 'auto'; msgEl.style.height = `${msgEl.scrollHeight + 1}px`; };
+    if (!CSS.supports('field-sizing', 'content')) {
+      msgEl.addEventListener('input', fitMsg);
+      form.addEventListener('reset', () => requestAnimationFrame(fitMsg));
+    }
     nameEl.addEventListener('input', () => nameEl.value.trim() && clearName());
     emailEl.addEventListener('input', () => clearField(emailEl, emailErr));
     phoneEl.addEventListener('input', () => clearField(phoneEl, phoneErr));
